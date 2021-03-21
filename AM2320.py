@@ -3,7 +3,6 @@
 #These are needed for talking to the i2c bus
 import os
 import fcntl
-
 import time
 
 
@@ -46,7 +45,7 @@ class AM2320:
 		except:
 			pass
 
-		#Tell the sensor you want to read data (0x03), starting at register 0 
+		#Tell the sensor you want to read data (0x03), starting at register 0
 		#(0x00), and that you want 4 bytes of sensor data.  This starts the read
 		#at the humidity most significant byte, passes through the humidity least
 		#significant and temperature most significant bytes and stops after
@@ -56,10 +55,12 @@ class AM2320:
 		#Give the sensor a few microseconds to take measurements (if you don't it
 		# gives an I/O Error).  The value was arrived at by trial and error, it
 		#may need tweaking or may possibly be turned down a bit.
-		time.sleep(0.0001)
+		# Seems 0.0020 (2ms) is a minimal value otherwise and old mesure is recived
+		# I use here 10ms to secure as i only measure for log
+		time.sleep(0.0100) #2ms
 
 		#Read the data into the list called "raw_data".  Bytes 0 and 1 are the
-		#instructions given to the device (0x03 and 0x04), given to check that 
+		#instructions given to the device (0x03 and 0x04), given to check that
 		#what was read is what was asked for.  Bytes 2 and 3 are the
 		# humidity high and low bytes respectively.  Bytes 4 and 5 are the
 		# temperature high and low bytes respectively.  Bytes 6 and 7 are the CRC
@@ -89,24 +90,14 @@ class AM2320:
 			print("CRC error, data corrupt!")
 		#Otherwise, everything is fine and calculate the temp/humidity values
 		else:
-			#Bitshift the temperature most significant byte left by 8 bits
-			#and combine with the least significant byte. If bit 15 is 1 the
-			#temperature is negative, so get rid of b.t 15 (by bitwise AND 
-			#with 0x7f) and then make the value negative before dividing by 10
-			#according to the datasheet.  If bit 15 is zero, the temperature
-			#is positive so just divide it by 10 to get the temperature in 
-			#degrees Celsius/ 
-
-			self.temperature = ((self.raw_data[4] << 8)\
- + self.raw_data[5])
-			if ((self.temperature & 0x80) == 0x80):
-				self.temperature = self.temperature & 0x7f
+			# Shift bits 4 and 5
+			self.temperature = ((self.raw_data[4] << 8) + self.raw_data[5])
+ 			# bit 15 mean negative value
+			if ((self.temperature & 0x8000) == 0x8000):
+				self.temperature = self.temperature & 0x7fff
 				self.temperature = -self.temperature/10.0
 			else:
 				self.temperature = self.temperature / 10.0
 
-			#Bitshift the humidity most significant byte left by 8 bits and add
-			#it to the least significant byte.  Divide this by 10 to give the
-			#humidity in % relative humidity, according to the datasheet.
-			self.humidity = ((self.raw_data[2] << 8) \
- + self.raw_data[3])/10.0
+			#Shift bits 4 and 5
+			self.humidity = ((self.raw_data[2] << 8) + self.raw_data[3])/10.0

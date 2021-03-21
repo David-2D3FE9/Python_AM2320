@@ -1,3 +1,8 @@
+Forked from https://github.com/UnfinishedStuff/AM2320_Pi  
+Below this line the original content:
+
+---
+
 # AM2320_Pi
 A python script for running the AM2320 temperature and humidity sensor on a Raspberry Pi
 

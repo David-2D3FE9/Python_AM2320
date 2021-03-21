@@ -56,7 +56,8 @@ class AM2320:
 		# gives an I/O Error).  The value was arrived at by trial and error, it
 		#may need tweaking or may possibly be turned down a bit.
 		# Seems 0.0020 (2ms) is a minimal value otherwise and old mesure is recived
-		# I use here 10ms to secure as i only measure for log
+		#
+		# @David-2D3FE9 I had troubles with values up tu 5ms, 10 i fine for my purpose
 		time.sleep(0.0100) #2ms
 
 		#Read the data into the list called "raw_data".  Bytes 0 and 1 are the

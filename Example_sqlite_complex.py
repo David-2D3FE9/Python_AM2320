@@ -5,7 +5,6 @@
 #
 # in case of function fail the value is set to 0
 #
-import time
 import sqlite3
 import datetime
 import subprocess

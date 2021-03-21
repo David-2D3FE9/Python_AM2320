@@ -6,4 +6,4 @@ Various examples added goes from simple `print()` to `sqlite3` record beside wit
 
 My personnal purpose of this repo is to monitor an outdoor case with a rapsberry pi inside  
 
-The main library for AM2320 and the simple exaple was forked from https://github.com/UnfinishedStuff/AM2320_Pi  
+The main library for AM2320 and the simple example was forked from https://github.com/UnfinishedStuff/AM2320_Pi  

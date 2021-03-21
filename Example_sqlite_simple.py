@@ -4,7 +4,6 @@
 # This script is aimed to be called with crontab of the rapsberry (for example every 10 minutes)
 # Otherwise it is possible to add an infinite loop with a sleep instruction
 #
-import time
 import sqlite3
 import datetime
 import AM2320

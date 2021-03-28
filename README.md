@@ -1,5 +1,5 @@
 
-This forked repo get values from a AM2320 temperature and humidity sensor. 
+This forked repo get values from a AM2320 temperature and humidity sensor.  
 A bug is corrected for negative values.  
 It works on a I2C bus with Python3
 
@@ -11,3 +11,10 @@ The trick was to make a cd before the command and not trying to call everyrhing 
 
 `*/1 * * * * cd /home/username/Python_AM2320 && /usr/bin/python3 ./Example_sqlite_complex.py`
 
+Ce fork permet de lire les valeurs de température et d'humidité d'un capteur AM2320.  
+Le bug pour les températures négatives est corrigé.  
+
+Divers exemples on été ajoutés en lien avec mon application.  
+Application qui vise à monitorer le taux d'humitidé dans le boitier d'un serveur raspberry installé en extérieur.
+
+Le script est appelé par le crontab (ici toutes les minutes pour l'exemple).
